@@ -46,7 +46,6 @@ public struct ShimmerView: ViewModifier, TokenizedControlView {
                     }
                     /// RTL languages require shimmer in the respective direction.
                     .flipsForRightToLeftLayoutDirection(true)
-                    .matchedGeometryEffect(id: UUID(), in: self.animationId)
             })
     }
 
@@ -112,8 +111,6 @@ public struct ShimmerView: ViewModifier, TokenizedControlView {
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFShimmerStateImpl
 
-    /// When displaying one or more shimmers, this ID will synchronize the animations.
-    let animationId: Namespace.ID
     /// Determines whether content to shimmer is a label.
     let isLabel: Bool
     /// Whether the shimmering effect is active.

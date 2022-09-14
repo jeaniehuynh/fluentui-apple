@@ -56,7 +56,6 @@ public struct ShimmerLinesView: View, TokenizedControlView {
         .shimmering(style: state.style,
                     shouldAddShimmeringCover: false,
                     usesTextHeightForLabels: false,
-                    animationId: namespace,
                     isLabel: false)
         .frame(maxWidth: .infinity, maxHeight: state.lineCount == 0 ? .infinity : (CGFloat(state.lineCount - 1) * tokenSet[.labelSpacing].float) + (CGFloat(state.lineCount) * tokenSet[.labelHeight].float))
         .onSizeChange { newSize in
@@ -66,7 +65,6 @@ public struct ShimmerLinesView: View, TokenizedControlView {
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFShimmerLinesStateImpl
-    @Namespace private var namespace: Namespace.ID
     @State private var phase: CGFloat = 0
     @State private var containerSize: CGSize = CGSize()
 }

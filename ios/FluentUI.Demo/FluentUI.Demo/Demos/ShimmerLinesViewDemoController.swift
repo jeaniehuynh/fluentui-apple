@@ -15,7 +15,7 @@ class ShimmerViewDemoController: DemoController {
                                                            animated: true)
         }))
 
-        let contentView = { () -> UIStackView in
+        let shimmeringStackView = { () -> UIView in
             let label1 = UILabel()
             label1.text = "Label 1"
             label1.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -33,31 +33,48 @@ class ShimmerViewDemoController: DemoController {
 
             let parentStackView = UIStackView(arrangedSubviews: [label1, verticalStackView])
             parentStackView.spacing = 5
-            return parentStackView
+            let shimmerView = MSFShimmerView.init(style: .revealing,
+                                                  viewToShimmer: parentStackView)
+            shimmerView.frame = CGRect.init(x: 0, y: 0, width: 800, height: 300)
+            return shimmerView
         }
 
-        let shimmeringContentView = { (shimmersLeafViews: Bool) -> UIStackView in
-            let containerView = contentView()
-            let shimmerView = MSFShimmerView(containerView: containerView,
-                                             excludedViews: [],
-                                             animationSynchronizer: nil,
-                                             shimmersLeafViews: shimmersLeafViews,
-                                             usesTextHeightForLabels: true)
-            shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            containerView.addSubview(shimmerView)
-            return containerView
+        let shimmeringElementsView = { () -> UIStackView in
+            let label1 = UILabel()
+            label1.text = "Label 1"
+            label1.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+            let shimmeringLabel1 = MSFShimmerView(style: .revealing,
+                                                  viewToShimmer: label1)
+
+            let label2 = UILabel()
+            label2.text = "Label 2"
+            let shimmeringLabel2 = MSFShimmerView(style: .revealing,
+                                                  viewToShimmer: label2)
+
+            let label3 = UILabel()
+            label3.text = "label 3"
+            let shimmeringLabel3 = MSFShimmerView(style: .revealing,
+                                                  viewToShimmer: label3)
+
+            let verticalStackView = UIStackView(arrangedSubviews: [shimmeringLabel2, shimmeringLabel3])
+            verticalStackView.axis = .vertical
+            verticalStackView.spacing = 5
+            verticalStackView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+
+            let parentStackView = UIStackView(arrangedSubviews: [shimmeringLabel1, verticalStackView])
+            parentStackView.spacing = 5
+            parentStackView.frame = CGRect.init(x: 0, y: 0, width: 800, height: 300)
+            return parentStackView
         }
 
         let shimmeringImageView = { (shimmerStyle: MSFShimmerStyle) -> UIView in
             let imageView = UIImageView()
-            let containerView = UIStackView(arrangedSubviews: [imageView])
-            let shimmerView = MSFShimmerView(containerView: containerView, excludedViews: [], animationSynchronizer: nil, shimmerStyle: shimmerStyle)
-            shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            let shimmerView = MSFShimmerView.init(style: shimmerStyle, viewToShimmer: imageView)
             // Uses a nice gray color that happens to match the gray of the shimmer control. Any color can be used here though.
             let tintColor = UIColor(colorValue: ColorValue(0xF1F1F1))
             imageView.image = UIImage(named: "PlaceholderImage")?.withTintColor(tintColor, renderingMode: .alwaysOriginal)
-            containerView.addSubview(shimmerView)
-            return containerView
+            shimmerView.frame = CGRect.init(x: 0, y: 0, width: 800, height: 300)
+            return shimmerView
         }
 
         let shimmerViewLabel = { (text: String) -> UILabel in
@@ -67,21 +84,28 @@ class ShimmerViewDemoController: DemoController {
             return label
         }
 
+        let shimmerLines = { () -> UIView in
+            let linesView = MSFShimmerLinesView(style: .revealing,
+                                             lineCount: 3,
+                                             firstLineFillPercent: 0.94,
+                                             lastLineFillPercent: 0.6)
+            linesView.frame = CGRect.init(x: 0, y: 0, width: 800, height: 300)
+            return linesView
+        }
+
         container.addArrangedSubview(shimmerViewLabel("A ShimmerLinesView needs no containerview or subviews"))
         container.addArrangedSubview(dividers[0])
-        container.addArrangedSubview(MSFShimmerLinesView(lineCount: 3,
-                                                         firstLineFillPercent: 0.94,
-                                                         lastLineFillPercent: 0.6))
+        container.addArrangedSubview(shimmerLines())
         container.addArrangedSubview(dividers[1])
 
         container.addArrangedSubview(shimmerViewLabel("ShimmerView shimmers all the top level subviews of its container view"))
         container.addArrangedSubview(dividers[2])
-        container.addArrangedSubview(shimmeringContentView(false))
+        container.addArrangedSubview(shimmeringStackView())
         container.addArrangedSubview(dividers[3])
 
         container.addArrangedSubview(shimmerViewLabel("With shimmersLeafViews set, the ShimmerView will shimmer the labels inside the stackview"))
         container.addArrangedSubview(dividers[4])
-        container.addArrangedSubview(shimmeringContentView(true))
+        container.addArrangedSubview(shimmeringElementsView())
         container.addArrangedSubview(dividers[5])
 
         container.addArrangedSubview(shimmerViewLabel("Revealing style shimmer on an image: the gradient reveals its container view as it moves"))

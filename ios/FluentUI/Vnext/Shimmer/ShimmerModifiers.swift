@@ -17,14 +17,12 @@ public extension View {
     @ViewBuilder func shimmering(style: MSFShimmerStyle = .revealing,
                                  shouldAddShimmeringCover: Bool = true,
                                  usesTextHeightForLabels: Bool = false,
-                                 animationId: Namespace.ID,
                                  isLabel: Bool = false,
                                  isShimmering: Bool = true) -> some View {
         modifier(ShimmerView(tokenSet: ShimmerTokenSet(style: { style }),
                              state: MSFShimmerStateImpl(style: style,
                                                         shouldAddShimmeringCover: shouldAddShimmeringCover,
                                                         usesTextHeightForLabels: usesTextHeightForLabels),
-                             animationId: animationId,
                              isLabel: isLabel,
                              isShimmering: isShimmering))
     }

@@ -64,7 +64,7 @@ extension TableViewCell {
         // because the cells have different layouts in this example, remove and re-add the shimmers
         shimmerView?.removeFromSuperview()
 
-        let shimmerView = MSFShimmerView(containerView: contentView, animationSynchronizer: synchronizer)
+        let shimmerView = MSFShimmerView(style: .revealing, viewToShimmer: contentView)
         contentView.addSubview(shimmerView)
         shimmerView.frame = contentView.bounds
         shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]

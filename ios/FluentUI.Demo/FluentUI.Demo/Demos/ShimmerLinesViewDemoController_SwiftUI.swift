@@ -33,7 +33,6 @@ struct ShimmerLinesDemoView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .shimmering(style: style,
                             usesTextHeightForLabels: usesTextHeightForLabels,
-                            animationId: namespace,
                             isLabel: true)
                 .padding()
             } else if shimmerDemoContent == .shimmerMultipleLines {
@@ -46,8 +45,7 @@ struct ShimmerLinesDemoView: View {
                 Image("PlaceholderImage")
                     .foregroundColor(Color.gray)
                     .shimmering(style: style,
-                                usesTextHeightForLabels: usesTextHeightForLabels,
-                                animationId: namespace)
+                                usesTextHeightForLabels: usesTextHeightForLabels)
                     .padding()
             } else if shimmerDemoContent == .shimmerIndividual {
                 HStack {
@@ -56,18 +54,15 @@ struct ShimmerLinesDemoView: View {
                         .aspectRatio(contentMode: .fit)
                         .foregroundColor(Color.gray)
                         .shimmering(style: style,
-                                    usesTextHeightForLabels: usesTextHeightForLabels,
-                                    animationId: namespace)
+                                    usesTextHeightForLabels: usesTextHeightForLabels)
                     VStack {
                         Text("This is the upper label being shimmered.")
                             .shimmering(style: style,
                                         usesTextHeightForLabels: usesTextHeightForLabels,
-                                        animationId: namespace,
                                         isLabel: true)
                         Text("This is the lower label being shimmered.")
                             .shimmering(style: style,
                                         usesTextHeightForLabels: usesTextHeightForLabels,
-                                        animationId: namespace,
                                         isLabel: true)
                     }
                 }
@@ -84,8 +79,7 @@ struct ShimmerLinesDemoView: View {
                     }
                 }
                 .shimmering(style: style,
-                            usesTextHeightForLabels: usesTextHeightForLabels,
-                            animationId: namespace)
+                            usesTextHeightForLabels: usesTextHeightForLabels)
                 .padding()
             }
 
@@ -164,7 +158,6 @@ struct ShimmerLinesDemoView: View {
         }
     }
 
-    @Namespace var namespace: Namespace.ID
     @State var style: MSFShimmerStyle = .revealing
     @State var usesTextHeightForLabels: Bool = true
     @State var numberOfLines: Int = 3
